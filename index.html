@@ -1,39 +1,70 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Login</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Login</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-<header>
-    <h2>Mi Proyecto Web</h2>
+ <header>
+   <h2>Mi Proyecto Web</h2>
     <nav>
-        <a href="index.html">Login</a>
-        <a href="registro.html">Registro</a>
-        <a href="inicio.html">Inicio</a>
+      <a href="index.html">Login</a>
+      <a href="registro.html">Registro</a>
+      <a href="inicio.html">Inicio</a>
     </nav>
-</header>
+ </header>
 
-<main class="center-content">
-    <div class="form-box">
-        <h1>Iniciar Sesión</h1>
-        <form>
-            <label>Usuario</label>
-            <input type="text" required>
+ <main class="center-content">
+  <div class="form-box">
+    <h1>Iniciar Sesión</h1>
 
-            <label>Contraseña</label>
-            <input type="password" required>
+    <div id="mensaje" class="mensaje oculto"></div>
 
-            <button type="submit">Ingresar</button>
-        </form>
-    </div>
-</main>
+    <form id="loginForm">
+      <label>Usuario</label>
+      <input type="text" id="usuario" required placeholder="Tu nombre de usuario">
 
-<footer>
-    <p>© 2026 Mi Proyecto Web | Tec</p>
-</footer>
+      <label>Contraseña</label>
+      <input type="password" id="contrasena" required placeholder="••••••••">
 
+      <button type="submit">Ingresar</button>
+    </form>
+
+    <p class="form-link">¿No tienes cuenta? <a href="registro.html">Regístrate aquí</a></p>
+  </div>
+ </main>
+
+ <footer>
+  <p>© 2026 Mi Proyecto Web | Tec</p>
+ </footer>
+
+ <script src="auth.js"></script>
+ <script>
+   // Si ya hay sesión, redirigir directo al inicio
+   if (getSesion()) {
+    window.location.href = "inicio.html";
+  }
+
+  document.getElementById("loginForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const usuario   = document.getElementById("usuario").value.trim();
+    const contrasena = document.getElementById("contrasena").value;
+
+    const resultado = loginUsuario({ usuario, contrasena });
+    mostrarMensaje(resultado.mensaje, resultado.ok ? "exito" : "error");
+
+    if (resultado.ok) {
+      setTimeout(() => window.location.href = "inicio.html", 1000);
+    }
+  });
+
+  function mostrarMensaje(texto, tipo) {
+    const el = document.getElementById("mensaje");
+    el.textContent = texto;
+    el.className = "mensaje " + tipo;
+  }
+ </script>
 </body>
 </html>

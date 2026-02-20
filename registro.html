@@ -1,45 +1,84 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Registro</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Registro</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <header>
-    <h2>Mi Proyecto Web</h2>
-    <nav>
-        <a href="index.html">Login</a>
-        <a href="registro.html">Registro</a>
-        <a href="inicio.html">Inicio</a>
-    </nav>
+  <h2>Mi Proyecto Web</h2>
+  <nav>
+    <a href="index.html">Login</a>
+    <a href="registro.html">Registro</a>
+    <a href="inicio.html">Inicio</a>
+  </nav>
 </header>
 
 <main class="center-content">
-    <div class="form-box">
-        <h1>Registro</h1>
-        <form>
-            <label>Nombre</label>
-            <input type="text" required>
+  <div class="form-box">
+    <h1>Registro</h1>
 
-            <label>Email</label>
-            <input type="email" required>
+    <div id="mensaje" class="mensaje oculto"></div>
 
-            <label>Usuario</label>
-            <input type="text" required>
+    <form id="registroForm">
+      <label>Nombre</label>
+      <input type="text" id="nombre" required placeholder="Tu nombre completo">
 
-            <label>Contraseña</label>
-            <input type="password" required>
+      <label>Email</label>
+      <input type="email" id="email" required placeholder="correo@ejemplo.com">
 
-            <button type="submit">Registrarse</button>
-        </form>
-    </div>
+      <label>Usuario</label>
+      <input type="text" id="usuario" required placeholder="Nombre de usuario único">
+
+      <label>Contraseña</label>
+      <input type="password" id="contrasena" required placeholder="Mínimo 6 caracteres" minlength="6">
+
+      <label>Confirmar Contraseña</label>
+      <input type="password" id="confirmar" required placeholder="Repite tu contraseña">
+
+      <button type="submit">Registrarse</button>
+    </form>
+
+    <p class="form-link">¿Ya tienes cuenta? <a href="index.html">Inicia sesión</a></p>
+  </div>
 </main>
 
 <footer>
-    <p>© 2026 Mi Proyecto Web | Tec</p>
+  <p>© 2026 Mi Proyecto Web | Tec</p>
 </footer>
 
+<script src="auth.js"></script>
+<script>
+  document.getElementById("registroForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const nombre     = document.getElementById("nombre").value.trim();
+    const email      = document.getElementById("email").value.trim();
+    const usuario    = document.getElementById("usuario").value.trim();
+    const contrasena = document.getElementById("contrasena").value;
+    const confirmar  = document.getElementById("confirmar").value;
+
+    // Validar que las contraseñas coincidan
+    if (contrasena !== confirmar) {
+      mostrarMensaje("Las contraseñas no coinciden.", "error");
+      return;
+    }
+
+    const resultado = registrarUsuario({ nombre, email, usuario, contrasena });
+    mostrarMensaje(resultado.mensaje, resultado.ok ? "exito" : "error");
+
+    if (resultado.ok) {
+      document.getElementById("registroForm").reset();
+      setTimeout(() => window.location.href = "index.html", 1500);
+    }
+  });
+
+  function mostrarMensaje(texto, tipo) {
+    const el = document.getElementById("mensaje");
+    el.textContent = texto;
+    el.className = "mensaje " + tipo;
+  }
+</script>
 </body>
 </html>

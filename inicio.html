@@ -1,32 +1,40 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <title>Inicio</title>
-    <link rel="stylesheet" href="style.css">
+<meta charset="UTF-8">
+<title>Inicio</title>
+<link rel="stylesheet" href="style.css">
 </head>
 <body>
-
 <header>
-    <h2>Mi Proyecto Web</h2>
-    <nav>
-        <a href="inicio.html">Inicio</a>
-        <a href="perfil.html">Perfil</a>
-        <a href="dashboard.html">Dashboard</a>
-    </nav>
+  <h2>Mi Proyecto Web</h2>
+  <nav>
+    <a href="inicio.html">Inicio</a>
+    <a href="perfil.html">Perfil</a>
+    <a href="dashboard.html">Dashboard</a>
+    <span id="saludo" style="margin-left:20px; font-size:0.9rem; opacity:0.85;"></span>
+    <a href="#" onclick="logout()" style="margin-left:15px;">Cerrar sesión</a>
+  </nav>
 </header>
 
 <main class="content">
-    <h1>Bienvenido al Inicio</h1>
-
-    <img src="images/logo.png" alt="Imagen principal" class="hero-img">
-    
-    <p>Esta es una página interior del proyecto.</p>
+  <h1>Bienvenido al Inicio</h1>
+  <img src="images/logo.png" alt="Imagen principal" class="hero-img">
+  <p>Esta es una página interior del proyecto.</p>
 </main>
 
 <footer>
-    <p>© 2026 Mi Proyecto Web | Tec</p>
+  <p>© 2026 Mi Proyecto Web | Tec</p>
 </footer>
 
+<script src="auth.js"></script>
+<script>
+  requireAuth(); // redirige al login si no hay sesión
+
+  const sesion = getSesion();
+  if (sesion) {
+    document.getElementById("saludo").textContent = "Hola, " + sesion.nombre + " 👋";
+  }
+</script>
 </body>
 </html>
